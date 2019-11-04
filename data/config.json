@@ -1,0 +1,19 @@
+{
+  "data": {
+    "config": {
+      "app": {
+        "app_id": "awesomeapp",
+        "app_label": "AwesomeApp",
+        "app_description": "",
+        "app_logo": "http://awesome_app_logo.png"
+      },
+      "api": {
+        "api_feed": "/public/feed",
+        "api_server": "https://server_example.com"
+      }
+    }
+  },
+  "success": true,
+  "status": 200,
+  "error": null
+}
