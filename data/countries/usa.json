@@ -1,0 +1,10 @@
+{
+  "data": {
+    "config": {
+      "country": "USA"
+    }
+  },
+  "success": true,
+  "status": 200,
+  "error": null
+}
