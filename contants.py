@@ -2,7 +2,7 @@ default_config = {
     "data": None,
     "success": False,
     "status": 501,
-    "error": ""
+    "error": None
 }
 id_to_file_name = {
     "uk": "united_kingdom.json",

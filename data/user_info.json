@@ -1,0 +1,36 @@
+[
+  {
+    "account": {
+      "id": "5547",
+      "first-name": "Name",
+      "last-name": "Surname",
+      "photo": {
+        "square": {
+          "160x160": "https://photo.png"
+        }
+      },
+      "employee": {
+        "profession": "Software Engineer, Engineering",
+        "seniority": "Band 1 TE04",
+        "date-of-joining": 637092358720000000,
+        "location": {
+          "country": "ua",
+          "city": "lwo",
+          "office": "1",
+          "floor": "5",
+          "seat": "231"
+        }
+      },
+      "contacts": {
+        "e-mail": "user@mail.com",
+        "phone": "+380960000000",
+        "messangers": {
+          "skype": "user.skype"
+        }
+      }
+    },
+    "reports-to": {
+      "id": "2744"
+    }
+  }
+]

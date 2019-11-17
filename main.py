@@ -7,17 +7,36 @@ from contants import default_config, id_to_file_name
 app = Flask(__name__)
 
 
-@app.route("/api/hello_world", methods=('GET',))
-def hello():
-    return jsonify("Hello world!")
+@app.route("/api/ping", methods=('GET',))
+def ping():
+    message = request.args.get("message", None)
+    response = default_config.copy()
+
+    if message:
+        response['data'] = {
+            "message": message
+        }
+        response['success'] = True
+        response['status'] = 200
+    else:
+        response['success'] = False
+        response['status'] = 501
+        response['error'] = 'Missing parameter <message>'
+
+    return jsonify(response)
 
 
 @app.route("/api/config", methods=('GET',))
 def get_config():
-    with open('data/config.json', 'r') as f:
-        config = json.load(f)
+    response = default_config.copy()
 
-    return jsonify(config)
+    with open('data/config.json', 'r') as f:
+        response['data'] = json.load(f)
+        response['data']['api']['server'] = request.host_url[:-1]
+        response['success'] = True
+        response['status'] = 200
+
+    return jsonify(response)
 
 
 @app.route("/api/country", methods=('GET',))
@@ -40,6 +59,40 @@ def get_country():
         config["error"] = "Missing parameter [id]"
 
     return jsonify(config)
+
+
+@app.route("/api/login", methods=('POST',))
+def login():
+    response = default_config.copy()
+    data = json.loads(request.data)
+    login_name = data.get("login", None)
+    password = data.get("password", None)
+
+    if not login_name:
+        response['error'] = "required field <login> in request body"
+    else:
+        with open("data/login.json", 'r') as f:
+            login_data = json.load(f)
+            user = None
+
+            for item in login_data:
+                if item['login'] == login_name:
+                    user = item
+                    break
+
+            if not user:
+                response['error'] = "user with this login doesn't registered"
+            elif user['password'] == password:
+                response['success'] = True
+                response['status'] = 200
+                response['data'] = {
+                    'id': user['id'],
+                    'token': user['token']
+                }
+            else:
+                response['error'] = "password error"
+
+    return jsonify(response)
 
 
 if __name__ == '__main__':
