@@ -1,0 +1,39 @@
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    volumes:
+      - db:/data/postgres
+    ports:
+      - "5335:5432"
+    networks:
+      - db
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d postgres" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  redis:
+    image: redis:6.2.5-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD:-password}
+    ports:
+      - "6379:6379"
+    networks:
+      - db
+    healthcheck:
+      interval: 10s
+      timeout: 7s
+      retries: 3
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:
